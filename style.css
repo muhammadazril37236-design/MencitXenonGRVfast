@@ -1,0 +1,3751 @@
+  :root,
+  :root[data-theme="dark"] {
+    --bg-app: #0b192c;
+    --bg-app-gradient: radial-gradient(circle at 50% 35%, #1e3a5f 0%, #10243e 46%, #081322 100%);
+    --bg-panel: #132640;
+    --bg-panel-elevated: #183050;
+    --bg-header: #0f2036;
+    --bg-step-bar: linear-gradient(180deg, #162e4d 0%, #10223a 100%);
+    --bg-pan-surround: #0d1d33;
+    --bg-slot: #162c49;
+    --bg-slot-hover: #1d385c;
+    --border-panel: rgba(148, 197, 255, 0.24);
+    --border-subtle: rgba(148, 197, 255, 0.14);
+    --shadow-panel: 0 4px 14px rgba(2, 8, 20, 0.35);
+    --shadow-card: 0 2px 8px rgba(2, 8, 20, 0.28);
+    --text-main: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --primary: #38bdf8;
+    --primary-light: rgba(56, 189, 248, 0.16);
+    --btn-bg: #183050;
+    --btn-hover: #214068;
+    --btn-text: #f1f5f9;
+    --btn-primary-bg: #1d4ed8;
+    --btn-primary-hover: #1e40af;
+    --btn-primary-text: #ffffff;
+    --focus-ring-color: #38bdf8;
+    --accent: #14b8a6;
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
+  }
+
+  :root[data-theme="light"] {
+    --bg-app: #F1F5FC;
+    --bg-app-gradient: radial-gradient(circle at 50% 42%, #FFFFFF 0%, #F1F5FC 42%, #E8F0FC 74%, #DCE6F4 100%);
+    --bg-panel: #ffffff;
+    --bg-panel-elevated: #f8fafc;
+    --bg-header: #ffffff;
+    --bg-step-bar: linear-gradient(180deg, #f4f8ff 0%, #e8f0fc 100%);
+    --bg-pan-surround: #e2e8f0;
+    --bg-slot: #ffffff;
+    --bg-slot-hover: #f8fafc;
+    --border-panel: #cbd5e1;
+    --border-subtle: #e2e8f0;
+    --shadow-panel: 0 2px 8px rgba(15, 23, 42, 0.06);
+    --shadow-card: 0 2px 6px rgba(15, 23, 42, 0.05);
+    --text-main: #0f172a;
+    --text-secondary: #1e293b;
+    --text-muted: #475569;
+    --primary: #315D96;
+    --primary-light: #e8f0fc;
+    --btn-bg: #ffffff;
+    --btn-hover: #f1f5fc;
+    --btn-text: #0f172a;
+    --btn-primary-bg: #315D96;
+    --btn-primary-hover: #274D80;
+    --btn-primary-text: #FFFFFF;
+    --focus-ring-color: #315D96;
+    --accent: #0d9488;
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
+  }
+
+  * {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Area interaktif simulasi yang wajib mengunci gesture sentuh agar drag/hold presisi */
+  #wax-bed,
+  #specimen-svg,
+  #touch-scanner-box,
+  #cage-arena,
+  .wandering-mouse {
+    touch-action: none;
+  }
+
+  /* Area daftar, wadah spesimen, dan modal yang mendukung scrolling sentuh */
+  .tool-list {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .specimen-white-box,
+  .modal-card {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    height: var(--app-height, 100dvh);
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-app);
+    background-image: var(--bg-app-gradient);
+    color: var(--text-main);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+/* === PATCH 3B-HEADER-REV1: STRUKTUR DUA BARIS VERTIKAL === */
+  .app-top-shell {
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border-panel);
+    flex-shrink: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  header.main-header {
+    padding: 7px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-header);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .brand-badge {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 11.5px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .brand h1 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+    white-space: normal;
+overflow: visible;
+text-overflow: clip;
+word-break: break-word;
+line-height: 1.25;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+  }
+
+/* Baris Kedua: Panel Informasi Tahap */
+  .step-info-bar {
+    background: var(--bg-step-bar);
+    padding: 7px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .step-info-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .step-title-line {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: 0.2px;
+    line-height: 1.3;
+  }
+
+  .step-instruction-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .step-instruction-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--primary);
+    line-height: 1.2;
+  }
+
+  .step-instruction-text {
+    margin: 0;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    line-height: 1.35;
+  }
+
+  .step-progress-wrap {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .step-progress {
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--bg-panel);
+    color: var(--primary);
+    border: 1px solid var(--border-panel);
+    padding: 3px 10px;
+    border-radius: 99px;
+    white-space: nowrap;
+    box-shadow: var(--shadow-card);
+  }
+  
+  .storage-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 99px;
+    border: 1px solid var(--border-panel);
+    background: var(--bg-panel-elevated);
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+  }
+
+  .storage-status-badge .ss-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #94a3b8;
+    flex-shrink: 0;
+  }
+
+  .storage-status-badge.status-saved {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #15803d;
+  }
+  .storage-status-badge.status-saved .ss-dot {
+    background: #16a34a;
+  }
+
+  .storage-status-badge.status-saving {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: #0369a1;
+  }
+  .storage-status-badge.status-saving .ss-dot {
+    background: #0284c7;
+  }
+
+  .storage-status-badge.status-unavailable {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #b91c1c;
+  }
+  .storage-status-badge.status-unavailable .ss-dot {
+    background: #dc2626;
+  }
+
+  #confirm-reset-modal {
+    z-index: 2800;
+  }
+
+button.btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--border-panel);
+    color: var(--btn-text);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease;
+    white-space: nowrap;
+  }
+
+  button.btn:hover {
+    background: var(--btn-hover);
+    border-color: var(--primary);
+  }
+
+  button.btn-primary {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border-color: var(--btn-primary-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
+  }
+
+  button.btn-primary:hover {
+    background: var(--btn-primary-hover);
+    border-color: var(--btn-primary-hover);
+  }
+
+  button.btn-success {
+    background: var(--success);
+    color: #fff;
+    border-color: var(--success);
+  }
+
+  button.btn-success:hover {
+    background: #15803d;
+  }
+
+  /* Main 3-Tray Unified Workstation */
+  main.workstation {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 235px 1fr 340px;
+    gap: 12px;
+    padding: 12px;
+    overflow: hidden;
+  }
+
+  .tray-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-panel);
+    border-radius: 12px;
+    box-shadow: var(--shadow-panel);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .tray-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-panel-elevated);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .tray-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--text-muted);
+  }
+
+  /* Left Tray: Instrument Tray */
+  .tool-list {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .tool-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border: 2px solid var(--border-subtle);
+    border-radius: 10px;
+    background: var(--bg-slot);
+    color: var(--text-main);
+    cursor: pointer;
+    transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  }
+
+  .tool-card:hover {
+    border-color: var(--primary);
+    background: var(--bg-slot-hover);
+  }
+
+  .tool-card.active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 2px 8px rgba(49, 93, 150, 0.2);
+  }
+
+  .tool-card.recommended {
+    border-style: dashed;
+    border-color: var(--accent);
+  }
+
+  .tool-card.active.recommended {
+    border-style: solid;
+    border-color: var(--primary);
+  }
+
+  .tool-icon {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-panel-elevated);
+    border-radius: 8px;
+  }
+
+  .tool-card.active .tool-icon {
+    background: #ffffff;
+  }
+
+  .tool-info h4 {
+    margin: 0 0 2px 0;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .tool-info p {
+    margin: 0;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.28;
+  }
+
+  /* Center Tray: Dissecting Pan */
+  .pan-container {
+    position: relative;
+    background: var(--bg-pan-surround);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+  }
+
+  .dissecting-pan {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #cbd5e1, #94a3b8);
+    border-radius: 24px;
+    padding: 14px;
+    box-shadow: inset 0 2px 6px rgba(255,255,255,0.6), 0 6px 16px rgba(15, 23, 42, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .wax-bed {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #134e4a 0%, #0f3f3c 100%);
+    border-radius: 16px;
+    box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.45);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wax-bed.drop-highlight {
+    outline: 3px dashed #38bdf8;
+    outline-offset: -6px;
+  }
+
+  svg#specimen-svg {
+    width: 100%;
+    height: 100%;
+    max-width: 560px;
+    max-height: 620px;
+    overflow: visible;
+  }
+
+  /* Anatomical SVG Animations & States */
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.07); }
+    45% { transform: scale(0.98); }
+    65% { transform: scale(1.05); }
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.035); }
+  }
+
+  @keyframes pulseTarget {
+    0%, 100% { stroke-width: 2; fill-opacity: 0.25; }
+    50% { stroke-width: 3.5; fill-opacity: 0.5; }
+  }
+
+  .anim-heart {
+    transform-origin: 250px 218px;
+    animation: heartbeat 0.9s infinite ease-in-out;
+  }
+
+  .anim-lungs {
+    transform-origin: 250px 215px;
+    animation: breathe 2.8s infinite ease-in-out;
+  }
+
+  .organ-node {
+    cursor: pointer;
+    transition: filter 0.15s, opacity 0.2s;
+  }
+
+  .organ-node:hover {
+    filter: brightness(1.08) drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+  }
+
+  .organ-node.selected {
+    filter: drop-shadow(0 0 7px #38bdf8);
+  }
+
+  .organ-node.extracted {
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .guide-line {
+    stroke: #facc15;
+    stroke-width: 3;
+    stroke-dasharray: 8 6;
+    fill: none;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .guide-line.visible {
+    opacity: 1;
+  }
+
+  .incision-progress-line {
+    stroke: #ef4444;
+    stroke-width: 4;
+    stroke-linecap: round;
+    fill: none;
+    pointer-events: none;
+  }
+
+  .pin-target {
+    fill: rgba(250, 204, 21, 0.25);
+    stroke: #facc15;
+    stroke-width: 2;
+    stroke-dasharray: 4 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .pin-target.visible {
+    opacity: 1;
+    animation: pulseTarget 1.5s infinite ease-in-out;
+  }
+
+  .stitch-node-target {
+    fill: rgba(56, 189, 248, 0.28);
+    stroke: #38bdf8;
+    stroke-width: 2;
+    stroke-dasharray: 3 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .stitch-node-target.visible {
+    opacity: 1;
+    animation: pulseTarget 1.3s infinite ease-in-out;
+  }
+
+  /* Suture Technique Guide Card inside Dissecting Pan */
+  .suture-guide-hud {
+    position: absolute;
+    top: auto;
+    bottom: 18px;
+    left: 18px;
+    right: auto;
+    width: 310px;
+    max-width: calc(100% - 255px);
+    background: rgba(15, 23, 42, 0.92);
+    color: #f8fafc;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 11.5px;
+    line-height: 1.4;
+    display: none;
+    z-index: 15;
+    pointer-events: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Vertical Practicum Progress Bar (Top-Right of Green Wax Bed) */
+  .vertical-progress-widget {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 18;
+    pointer-events: none;
+  }
+
+  .vertical-progress-widget .vp-label-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(6, 40, 38, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    padding: 4px 8px;
+    backdrop-filter: blur(2px);
+  }
+
+  .vertical-progress-widget .vp-pct-text {
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: 0.2px;
+  }
+
+  .vertical-progress-widget .vp-sub-text {
+    font-size: 10px;
+    font-weight: 600;
+    color: #cbd5e1;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .vertical-progress-widget .vp-track {
+    position: relative;
+    width: 11px;
+    height: 112px;
+    background: rgba(6, 40, 38, 0.88);
+    border: 1.5px solid rgba(255, 255, 255, 0.92);
+    border-radius: 99px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    flex-shrink: 0;
+  }
+
+  .vertical-progress-widget .vp-fill {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0%;
+    background: #ffffff;
+    border-radius: 99px;
+    transition: height 0.25s ease;
+  }
+
+  
+
+  /* Tablet (<= 1024px) */
+  @media (max-width: 1024px) {
+    header.main-header {
+      padding: 6px 12px;
+      gap: 8px;
+    }
+    .brand h1 {
+      font-size: 13.5px;
+    }
+    .header-actions {
+      gap: 5px;
+    }
+    .header-actions button.btn {
+      padding: 5px 9px;
+      font-size: 12px;
+    }
+    .step-info-bar {
+      padding: 6px 12px;
+      gap: 10px;
+    }
+    .step-title-line {
+      font-size: 12.5px;
+    }
+    .step-instruction-text {
+      font-size: 12px;
+    }
+    main.workstation {
+      grid-template-columns: 190px 1fr 295px;
+      gap: 8px;
+      padding: 8px;
+    }
+    .tool-card {
+      padding: 8px 9px;
+      gap: 8px;
+    }
+    .tool-icon {
+      width: 32px;
+      height: 32px;
+    }
+    .suture-guide-hud,
+    .anesthesia-hud {
+      left: 12px;
+      top: auto;
+      bottom: 54px;
+      max-width: calc(100% - 24px);
+      width: auto;
+      padding: 8px 10px;
+    }
+  }
+
+  /* Ponsel Portrait & Layar Sempit (<= 820px) */
+  @media (max-width: 820px) {
+    html, body {
+      height: auto;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: pan-y;
+    }
+    header.main-header {
+      flex-wrap: wrap;
+      padding: 7px 10px;
+      gap: 6px;
+    }
+    .brand {
+      flex: 1 1 auto;
+    }
+    .brand h1 {
+      font-size: 13px;
+      white-space: normal;
+      line-height: 1.25;
+    }
+    .header-actions {
+      width: 100%;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .header-actions button.btn {
+      padding: 5px 8px;
+      font-size: 11.5px;
+    }
+    .step-info-bar {
+      padding: 7px 10px;
+      gap: 8px;
+    }
+    .step-title-line {
+      font-size: 12px;
+    }
+    .step-instruction-text {
+      font-size: 11.5px;
+    }
+    main.workstation {
+      grid-template-columns: 1fr;
+      overflow: visible;
+      padding: 8px;
+      gap: 10px;
+    }
+    .tool-list {
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      touch-action: pan-x;
+      padding: 8px;
+    }
+    .tool-card {
+      min-width: 168px;
+      flex-shrink: 0;
+    }
+    .pan-container {
+      height: 430px;
+      padding: 8px;
+    }
+    .dissecting-pan {
+      padding: 8px;
+      border-radius: 16px;
+    }
+    .pan-controls {
+      bottom: 10px;
+      right: 10px;
+      left: 10px;
+      justify-content: center;
+      padding: 5px 6px;
+      gap: 4px;
+    }
+    .pan-controls button {
+      font-size: 11px;
+      padding: 4px 7px;
+    }
+    .right-column {
+      min-height: 390px;
+    }
+    .specimen-white-box {
+      grid-template-rows: repeat(4, minmax(84px, auto));
+    }
+  }
+
+  /* Ponsel Layar Sangat Sempit (<= 480px) */
+  @media (max-width: 480px) {
+    .brand-badge {
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+    .brand h1 {
+      font-size: 12px;
+    }
+    .storage-status-badge {
+      font-size: 10.5px;
+      padding: 4px 7px;
+    }
+    .step-info-bar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 5px;
+    }
+    .step-progress-wrap {
+      align-self: flex-start;
+    }
+    .pan-container {
+      height: 385px;
+    }
+    .modal-card {
+      padding: 16px 14px;
+      border-radius: 12px;
+    }
+    .modal-card h2 {
+      font-size: 16.5px;
+    }
+    .sex-selector-grid {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+
+  /* Ponsel Landscape & Layar Landscape Tinggi Terbatas (<= 520px tinggi) */
+
+  .suture-guide-hud.visible {
+    display: block;
+  }
+
+  .suture-guide-hud strong {
+    color: #38bdf8;
+  }
+
+  .suture-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+
+  .suture-spec-pill {
+    background: rgba(2, 132, 199, 0.28);
+    border: 1px solid #38bdf8;
+    color: #e0f2fe;
+    padding: 2px 7px;
+    border-radius: 99px;
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+
+/* Pan Controls Overlay */
+  .pan-controls {
+    position: absolute;
+    bottom: 18px;
+    right: 18px;
+    display: flex;
+    gap: 6px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-panel);
+    padding: 6px 8px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-panel);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .pan-controls button {
+    border: 1px solid var(--border-panel);
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+  }
+
+  .pan-controls button.active {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border-color: var(--btn-primary-bg);
+  }
+
+  .pan-controls button.btn-suture-trigger {
+    background: #0d9488;
+    color: #fff;
+    border-color: #0f766e;
+  }
+
+  /* RIGHT TRAY: SPECIMEN BOX FOR ORGAN IMAGES */
+  .right-column {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-panel);
+    border: 2px solid var(--border-panel);
+    border-radius: 12px;
+    box-shadow: var(--shadow-panel);
+    overflow: hidden;
+    transition: border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
+  }
+
+  .right-column.drop-highlight {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+  }
+
+  .white-box-hint {
+    padding: 8px 14px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.35;
+    flex-shrink: 0;
+  }
+
+  .specimen-white-box {
+    flex: 1;
+    background: var(--bg-panel);
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+    overflow-y: auto;
+  }
+
+  .dish-slot {
+    background: var(--bg-slot);
+    border: 1.5px dashed var(--border-panel);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.15s ease, border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
+    min-height: 88px;
+  }
+
+  .dish-slot.filled {
+    border-style: solid;
+    border-color: var(--border-panel);
+    background: var(--bg-slot);
+    cursor: pointer;
+    box-shadow: var(--shadow-card);
+  }
+
+  .dish-slot.filled:hover {
+    border-color: var(--primary);
+    background: var(--bg-slot-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(49, 93, 150, 0.18);
+  }
+
+  .dish-slot.filled.selected {
+    border-color: var(--primary);
+    border-width: 2px;
+    background: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(49, 93, 150, 0.2);
+  }
+
+  .dish-slot-svg {
+    width: 54px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+    pointer-events: none;
+  }
+
+  .dish-slot-label {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text-main);
+    pointer-events: none;
+  }
+
+  /* SILENT POP-UP TEXT BOX INSIDE RIGHT COLUMN */
+  .organ-popup-box {
+    position: absolute;
+    inset: 44px 8px 8px 8px;
+    background: #ffffff;
+    border: 1.5px solid #94a3b8;
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+    display: flex;
+    flex-direction: column;
+    z-index: 30;
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .organ-popup-box.open {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+  }
+
+  .popup-header {
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .popup-title-wrap h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.25;
+  }
+
+  .popup-title-wrap .latin-sub {
+    font-size: 11.5px;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  .popup-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .btn-tts-popup {
+    background: var(--primary-light);
+    border: 1px solid #7dd3fc;
+    color: #0369a1;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .btn-tts-popup:hover {
+    background: #bae6fd;
+  }
+
+  .btn-close-popup {
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-close-popup:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  .popup-scroll-body {
+    flex: 1;
+    padding: 10px 12px;
+    overflow-y: auto;
+    touch-action: pan-y;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  .popup-field {
+    margin-bottom: 9px;
+  }
+
+  .popup-field-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--primary);
+    margin-bottom: 2px;
+  }
+
+  .popup-field-text {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--text-main);
+  }
+
+  /* Physiology Mechanism Visualization Container */
+  .mech-visual-box {
+    margin-top: 8px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mech-visual-box svg {
+    width: 100%;
+    height: 128px;
+    display: block;
+    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+  }
+
+  .mech-caption {
+    margin-top: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* Mechanism SVG Keyframe Animations */
+  @keyframes pulsePump {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.09); }
+    60% { transform: scale(0.96); }
+  }
+  @keyframes flowRight {
+    0% { stroke-dashoffset: 24; }
+    100% { stroke-dashoffset: 0; }
+  }
+  @keyframes floatGasIn {
+    0% { transform: translate(0, 0); opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { transform: translate(26px, 14px); opacity: 0.2; }
+  }
+  @keyframes floatGasOut {
+    0% { transform: translate(0, 0); opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { transform: translate(-26px, -14px); opacity: 0.2; }
+  }
+  @keyframes wavePeristalsis {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(14px); }
+  }
+  @keyframes dropFilter {
+    0% { transform: translateY(0); opacity: 0; }
+    40% { opacity: 1; }
+    100% { transform: translateY(22px); opacity: 0; }
+  }
+
+  .mech-pump {
+    transform-origin: center;
+    animation: pulsePump 1.1s infinite ease-in-out;
+  }
+  .mech-flow {
+    stroke-dasharray: 6 6;
+    animation: flowRight 1s linear infinite;
+  }
+  .mech-o2 {
+    animation: floatGasIn 2.2s infinite ease-in-out;
+  }
+  .mech-co2 {
+    animation: floatGasOut 2.2s infinite ease-in-out;
+  }
+  .mech-bolus {
+    animation: wavePeristalsis 2s infinite ease-in-out;
+  }
+  .mech-drop {
+    animation: dropFilter 1.8s infinite ease-in;
+  }
+
+  /* Floating Active Tool Ghost */
+  #tool-ghost {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-20%, -20%);
+    display: none;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.28));
+  }
+
+  /* Toast Notification */
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #0f172a;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s;
+    z-index: 1000;
+    max-width: 90vw;
+    text-align: center;
+  }
+
+  #toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Modals & Onboarding Overlays (TV Merah Putih Touchscreen) */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2500;
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+
+  .modal-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+.modal-card {
+    background: var(--bg-panel);
+    color: var(--text-main);
+    border-radius: 16px;
+    max-width: 580px;
+    width: 100%;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+    padding: 22px;
+    box-shadow: 0 24px 38px -8px rgba(0,0,0,0.42);
+    border: 1px solid var(--border-panel);
+  }
+
+  .modal-card h2 {
+    margin: 0 0 10px 0;
+    font-size: 19px;
+    color: var(--text-main);
+  }
+
+  .modal-card p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin: 0 0 14px 0;
+  }
+
+  .modal-card ol, .modal-card ul {
+    padding-left: 20px;
+    margin: 0 0 16px 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+
+  .modal-card li {
+    margin-bottom: 6px;
+  }
+
+  /* Touch Scanner Box for TV Merah Putih */
+  .touch-scanner-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background: linear-gradient(180deg, #fef2f2 0%, #ffffff 100%);
+    border: 2px dashed #ef4444;
+    border-radius: 16px;
+    margin: 14px 0;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .touch-scanner-box.scanning {
+    border-style: solid;
+    border-color: #16a34a;
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+    box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.15);
+  }
+
+.hand-pad {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 3px solid #ef4444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.2);
+    transform: scale(1);
+    transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .touch-scanner-box.scanning .hand-pad {
+    border-color: #16a34a;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+  }
+
+  .touch-scanner-box.scanning.shrink-active .hand-pad {
+    transform: scale(0.91);
+  }
+
+  /* Gelombang Cahaya Melingkar dari Pusat Tombol */
+  #hand-ripple-wave {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3000;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.68) 0%,
+      rgba(255, 255, 255, 0.36) 35%,
+      rgba(255, 255, 255, 0.12) 68%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  #hand-ripple-wave.expand {
+    animation: handRippleExpand 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes handRippleExpand {
+    0% {
+      transform: translate(-50%, -50%) scale(0.4);
+      opacity: 0.85;
+    }
+    70% {
+      opacity: 0.55;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(26);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .modal-backdrop,
+    .hand-pad {
+      transition: none !important;
+    }
+    #hand-ripple-wave.expand {
+      animation: none !important;
+      display: none !important;
+    }
+  }
+  .scan-progress-track {
+    width: 100%;
+    max-width: 300px;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 16px;
+  }
+
+  .scan-progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ef4444, #16a34a);
+    transition: width 0.08s linear;
+  }
+
+  /* Sex Selection Cards */
+  .sex-selector-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 14px 0 18px 0;
+  }
+
+.sex-option-card {
+    border: 2px solid var(--border-panel);
+    border-radius: 12px;
+    padding: 14px;
+    cursor: pointer;
+    background: var(--bg-panel-elevated);
+    transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+    text-align: center;
+  }
+
+  .sex-option-card:hover {
+    border-color: var(--primary);
+  }
+
+  .sex-option-card.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 4px 12px rgba(49, 93, 150, 0.22);
+  }
+
+  .sex-option-card h4 {
+    margin: 6px 0 4px 0;
+    font-size: 15px;
+    color: var(--text-main);
+  }
+
+  .sex-option-card p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.35;
+  }
+
+  .info-section-box {
+    background: var(--bg-panel-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+
+  .info-section-box h4 {
+    margin: 0 0 6px 0;
+    font-size: 13.5px;
+    color: var(--primary);
+  }
+
+  .modal-btn-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 1024px) {
+    main.workstation {
+      grid-template-columns: 195px 1fr 310px;
+    }
+  }
+
+  @media (max-width: 820px) {
+    body {
+      height: auto;
+      overflow-y: auto;
+    }
+    main.workstation {
+      grid-template-columns: 1fr;
+      overflow: visible;
+    }
+    .tool-list {
+      flex-direction: row;
+      overflow-x: auto;
+    }
+    .tool-card {
+      min-width: 170px;
+    }
+    .pan-container {
+      height: 460px;
+    }
+    .right-column {
+      min-height: 440px;
+    }
+  }
+
+  /* Large Choice-Reason-Consequence Modal */
+  .modal-card.modal-xl {
+    max-width: 860px;
+    width: 96%;
+    padding: 26px;
+  }
+
+  .crc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 14px 0 18px 0;
+  }
+
+  @media (max-width: 720px) {
+    .crc-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .crc-option-box {
+    border: 2px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 16px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .crc-option-box.opt-inspect {
+    border-color: #7dd3fc;
+    background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
+  }
+
+  .crc-option-box.opt-suture {
+    border-color: #6ee7b7;
+    background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 100%);
+  }
+
+  .crc-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 9px;
+    border-radius: 99px;
+    margin-bottom: 4px;
+  }
+
+  .opt-inspect .crc-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+  }
+
+  .opt-suture .crc-badge {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .crc-row {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    padding: 9px 11px;
+  }
+
+  .crc-row-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #475569;
+    margin-bottom: 3px;
+  }
+
+  .crc-row-text {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  /* Wandering Mice Cage Arena — Tekstur Jerami Kering (Revisi Tahap C) */
+  .cage-arena {
+    position: relative;
+    width: 100%;
+    height: 310px;
+    background-color: #f3e5ab;
+    background-image:
+      radial-gradient(ellipse at 30% 25%, rgba(254, 249, 195, 0.72) 0%, rgba(234, 211, 145, 0.55) 55%, rgba(196, 154, 82, 0.45) 100%),
+      repeating-linear-gradient(12deg, rgba(180, 130, 56, 0.14) 0px, rgba(180, 130, 56, 0.14) 1.5px, transparent 1.5px, transparent 11px),
+      repeating-linear-gradient(-19deg, rgba(217, 179, 102, 0.22) 0px, rgba(217, 179, 102, 0.22) 2px, transparent 2px, transparent 15px),
+      repeating-linear-gradient(64deg, rgba(146, 101, 38, 0.11) 0px, rgba(146, 101, 38, 0.11) 1px, transparent 1px, transparent 19px);
+    border: 3px solid #92400e;
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 12px 0;
+    box-shadow: inset 0 4px 16px rgba(120, 53, 15, 0.24);
+  }
+
+  .cage-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(33deg, rgba(254, 240, 138, 0.35) 0px, rgba(254, 240, 138, 0.35) 1.5px, transparent 1.5px, transparent 23px),
+      repeating-linear-gradient(-42deg, rgba(161, 98, 7, 0.12) 0px, rgba(161, 98, 7, 0.12) 1.5px, transparent 1.5px, transparent 27px),
+      repeating-linear-gradient(84deg, rgba(202, 138, 4, 0.10) 0px, rgba(202, 138, 4, 0.10) 2px, transparent 2px, transparent 31px);
+    pointer-events: none;
+  }
+
+  .wandering-mouse {
+    position: absolute;
+    width: 68px;
+    height: 44px;
+    cursor: pointer;
+    transform-origin: center;
+    transition: filter 0.15s;
+    z-index: 5;
+    will-change: transform;
+  }
+
+  .wandering-mouse-tag {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.82);
+    color: #f8fafc;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .wandering-mouse.holding {
+    filter: drop-shadow(0 0 8px rgba(2, 132, 199, 0.9));
+    z-index: 15;
+  }
+
+  .wandering-mouse.holding .wandering-mouse-tag {
+    background: #0284c7;
+    color: #ffffff;
+  }
+
+  .wandering-mouse.selected-specimen {
+    outline: 2.5px solid #ffffff;
+    outline-offset: 4px;
+    border-radius: 14px;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 16px rgba(56, 189, 248, 0.85));
+    z-index: 18;
+  }
+
+  .wandering-mouse.selected-specimen .wandering-mouse-tag {
+    background: #ffffff;
+    color: #0f172a;
+    border: 1.5px solid #38bdf8;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+  }
+
+  .cage-arena.cage-locked .wandering-mouse {
+    pointer-events: none;
+  }
+
+  .cage-specimen-tooltip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba(15, 23, 42, 0.94);
+    color: #f8fafc;
+    border: 1.5px solid #ffffff;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.35;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 30;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+  }
+
+  .cage-specimen-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #mouse-confirm-modal {
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: 2600;
+  }
+
+  .capture-hud-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 10px 14px;
+  }
+
+  .capture-track {
+    flex: 1;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .capture-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #0284c7, #16a34a);
+    transition: width 0.06s linear;
+  }
+
+  /* Specimen Identity Panel (Top-Left of Dissecting Area) */
+  .specimen-identity-panel {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.94);
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    padding: 8px 12px;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.26), 0 4px 10px rgba(15, 23, 42, 0.35);
+    z-index: 17;
+    display: none;
+    flex-direction: column;
+    gap: 3px;
+    pointer-events: none;
+    max-width: 195px;
+  }
+
+  .specimen-identity-panel.visible {
+    display: flex;
+  }
+
+  .specimen-identity-panel .sip-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .specimen-identity-panel .sip-label {
+    color: #cbd5e1;
+    font-weight: 600;
+  }
+
+  .specimen-identity-panel .sip-value {
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+
+  /* Anesthesia Meter & Awake Escape Overlay inside Wax Bed */
+  .anesthesia-hud {
+    position: absolute;
+    top: auto;
+    bottom: 18px;
+    left: 18px;
+    right: auto;
+    width: 280px;
+    max-width: calc(100% - 255px);
+    background: rgba(15, 23, 42, 0.92);
+    color: #f8fafc;
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    border-radius: 10px;
+    padding: 9px 14px;
+    z-index: 16;
+    display: none;
+    pointer-events: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: 1024px) {
+    .specimen-identity-panel {
+      top: 10px;
+      left: 10px;
+      padding: 6px 10px;
+      max-width: 175px;
+    }
+    .specimen-identity-panel .sip-row {
+      font-size: 11px;
+    }
+    .anesthesia-hud {
+      left: 185px;
+      top: 10px;
+      right: 10px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .specimen-identity-panel {
+      top: 8px;
+      left: 8px;
+      padding: 5px 8px;
+      max-width: 160px;
+    }
+    .specimen-identity-panel .sip-row {
+      font-size: 10.5px;
+    }
+    .anesthesia-hud {
+      left: 8px;
+      right: 8px;
+      top: 58px;
+    }
+  }
+
+  .anesthesia-hud.visible {
+    display: block;
+  }
+
+  .anesthesia-track {
+    width: 100%;
+    height: 10px;
+    background: #334155;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+
+  .anesthesia-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #38bdf8, #22c55e);
+    transition: width 0.08s linear;
+  }
+
+  .snout-anesthesia-ring {
+    fill: rgba(56, 189, 248, 0.25);
+    stroke: #38bdf8;
+    stroke-width: 2.5;
+    stroke-dasharray: 5 3;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .snout-anesthesia-ring.visible {
+    opacity: 1;
+    animation: pulseTarget 1.3s infinite ease-in-out;
+  }
+
+  .flap-close-target {
+    fill: rgba(16, 185, 129, 0.26);
+    stroke: #10b981;
+    stroke-width: 2.2;
+    stroke-dasharray: 4 3;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .flap-close-target.visible {
+    opacity: 1;
+    animation: pulseTarget 1.3s infinite ease-in-out;
+  }
+
+  @keyframes mouseWakeSquirm {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    20% { transform: translate(-8px, -10px) rotate(-6deg); }
+    40% { transform: translate(10px, -22px) rotate(7deg); }
+    60% { transform: translate(-12px, -38px) rotate(-8deg); }
+    80% { transform: translate(14px, -55px) rotate(9deg); }
+  }
+
+  .specimen-escaping {
+    animation: mouseWakeSquirm 1.6s ease-in-out infinite;
+  }
+
+  button.btn-danger-finish {
+    background: #dc2626;
+    color: #fff;
+    border-color: #b91c1c;
+  }
+  button.btn-danger-finish:hover {
+    background: #b91c1c;
+  }
+
+/* Animasi Kompleks Visualisasi Mekanisme Organ */
+  @keyframes beatAtria {
+    0%, 100% { transform: scale(1); }
+    20% { transform: scale(1.14); }
+    45% { transform: scale(0.95); }
+  }
+  @keyframes beatVentricle {
+    0%, 25%, 100% { transform: scale(1); }
+    50% { transform: scale(1.16); }
+    75% { transform: scale(0.94); }
+  }
+  @keyframes diaphragmMove {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+  @keyframes lungExpand {
+    0%, 100% { transform: scale(0.96); }
+    50% { transform: scale(1.07); }
+  }
+  @keyframes churnWave {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    33% { transform: rotate(-3deg) scale(1.04); }
+    66% { transform: rotate(3deg) scale(0.97); }
+  }
+  @keyframes spermSwim {
+    0% { transform: translate(0, 0); opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { transform: translate(28px, -18px); opacity: 0.2; }
+  }
+
+  .mech-atria { transform-origin: 130px 44px; animation: beatAtria 1.1s infinite ease-in-out; }
+  .mech-ventricle { transform-origin: 130px 72px; animation: beatVentricle 1.1s infinite ease-in-out; }
+  .mech-diaphragm { animation: diaphragmMove 2.6s infinite ease-in-out; }
+  .mech-lung-sac { transform-origin: 85px 52px; animation: lungExpand 2.6s infinite ease-in-out; }
+  .mech-stomach-churn { transform-origin: 88px 56px; animation: churnWave 2.2s infinite ease-in-out; }
+  .mech-gamete { animation: spermSwim 2.2s infinite ease-in-out; }
+
+  .mech-visual-box svg {
+    height: 154px !important;
+  }
+
+  /* Styling Modal Closing Praktikum */
+  .closing-modal-scroll {
+    max-height: 88vh;
+    overflow-y: auto;
+    touch-action: pan-y;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  .quran-box {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 1.5px solid #86efac;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 12px 0;
+  }
+
+  .quran-arabic {
+    font-family: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+    font-size: 21px;
+    line-height: 1.9;
+    text-align: right;
+    direction: rtl;
+    color: #064e3b;
+    font-weight: 700;
+    margin: 6px 0 8px 0;
+  }
+
+  .tools-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .tools-summary-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .tool-summary-item {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .tool-summary-item strong {
+    color: #0369a1;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .credit-box {
+    background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+    border: 1.5px solid #93c5fd;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 12px;
+  }
+  
+  /* === KONSOLIDASI RESPONSIVE LAYOUT, SCROLLING & ACCESSIBILITY (v5.66) === */
+
+  /* 1. Pencegahan Overflow Grid/Flex & Stabilisasi Kontainer Internal */
+  main.workstation,
+  .tray-panel,
+  .pan-container,
+  .right-column,
+  .specimen-white-box,
+  .organ-popup-box,
+  .popup-scroll-body,
+  .step-info-content,
+  .step-instruction-block {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .step-title-line,
+  .step-instruction-text {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .organ-popup-box {
+    inset: 44px 8px 8px 8px;
+    max-width: calc(100% - 16px);
+    max-height: calc(100% - 52px);
+    box-sizing: border-box;
+  }
+
+  .popup-header {
+    min-height: 42px;
+    flex-wrap: nowrap;
+  }
+
+  .popup-title-wrap {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .popup-title-wrap h3 {
+    white-space: normal;
+overflow: visible;
+text-overflow: clip;
+word-break: break-word;
+line-height: 1.25;
+  }
+
+  .popup-controls {
+    flex-shrink: 0;
+  }
+
+  .popup-scroll-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .specimen-white-box,
+  .tool-list {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tool-card:not(.disabled),
+  .dish-slot.filled {
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .tool-card.disabled,
+  .dish-slot:not(.filled) {
+    touch-action: pan-y;
+  }
+
+  .modal-card,
+  .closing-modal-scroll {
+    max-height: calc(var(--app-height, 100dvh) - 24px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 2. Desktop Lebar (>= 1181px: 1366x768, 1900x1080, 1920x1080) */
+  @media (min-width: 1181px) {
+    html, body {
+      height: var(--app-height, 100dvh);
+      overflow: hidden;
+    }
+    main.workstation {
+      grid-template-columns: 235px minmax(0, 1fr) 340px;
+      overflow: hidden;
+    }
+    .right-column {
+      height: 100%;
+    }
+  }
+
+  /* 3. Tablet Landscape (821px - 1180px & Landscape, mis. 1024x768, 1180x820) */
+  @media (min-width: 821px) and (max-width: 1180px) and (orientation: landscape) {
+    html, body {
+      height: var(--app-height, 100dvh);
+      overflow: hidden;
+    }
+    header.main-header {
+      padding: 6px 12px;
+      gap: 8px;
+    }
+    .brand h1 {
+      font-size: 13.5px;
+    }
+    .header-actions {
+      gap: 5px;
+    }
+    .header-actions button.btn {
+      padding: 5px 9px;
+      font-size: 12px;
+    }
+    .step-info-bar {
+      padding: 6px 12px;
+      gap: 10px;
+    }
+    .step-title-line {
+      font-size: 12.5px;
+    }
+    .step-instruction-text {
+      font-size: 12px;
+    }
+    main.workstation {
+      grid-template-columns: 200px minmax(0, 1fr) 295px;
+      gap: 8px;
+      padding: 8px;
+      overflow: hidden;
+    }
+    .tool-card {
+      padding: 8px 9px;
+      gap: 8px;
+    }
+    .tool-icon {
+      width: 32px;
+      height: 32px;
+    }
+    .right-column {
+      height: 100%;
+    }
+    .suture-guide-hud,
+    .anesthesia-hud {
+      top: auto;
+      bottom: 54px;
+      left: 12px;
+      right: 12px;
+      width: auto;
+      max-width: calc(100% - 24px);
+      padding: 8px 10px;
+    }
+  }
+
+  /* 4A. Portrait Menengah Sempit (601px - 719px & Portrait, mis. 601x900, 640x960) -> Layout 1 Kolom Lega */
+  @media (min-width: 601px) and (max-width: 719px) and (orientation: portrait) {
+    html, body {
+      height: auto;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: pan-y;
+    }
+    header.main-header {
+      flex-wrap: wrap;
+      padding: 7px 12px;
+      gap: 8px;
+    }
+    .brand h1 {
+      font-size: 13.5px;
+      white-space: normal;
+      line-height: 1.25;
+    }
+    .header-actions {
+      width: 100%;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .step-info-bar {
+      padding: 7px 12px;
+      gap: 8px;
+    }
+    main.workstation {
+      grid-template-columns: minmax(0, 1fr);
+      overflow: visible;
+      padding: 10px;
+      gap: 10px;
+    }
+    .tool-list {
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      touch-action: pan-x;
+      padding: 8px;
+    }
+    .tool-card {
+      min-width: 176px;
+      flex-shrink: 0;
+    }
+    .pan-container {
+      height: 440px;
+      padding: 8px;
+    }
+    .right-column {
+      min-height: 420px;
+      max-height: 72dvh;
+    }
+    .specimen-white-box {
+      grid-template-rows: repeat(4, minmax(86px, auto));
+    }
+    .suture-guide-hud,
+    .anesthesia-hud {
+      top: auto;
+      bottom: 56px;
+      left: 12px;
+      right: 12px;
+      width: auto;
+      max-width: calc(100% - 24px);
+    }
+  }
+
+  /* 4B. Tablet Portrait Standar (720px - 1024px & Portrait, mis. 768x1024, 820x1180) -> Layout 2 Baris */
+  @media (min-width: 720px) and (max-width: 1024px) and (orientation: portrait) {
+    html, body {
+      height: auto;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: pan-y;
+    }
+    header.main-header {
+      flex-wrap: wrap;
+      padding: 7px 12px;
+      gap: 8px;
+    }
+    .brand h1 {
+      font-size: 14px;
+      white-space: normal;
+      line-height: 1.25;
+    }
+    .step-info-bar {
+      padding: 7px 12px;
+      gap: 10px;
+    }
+    /* Layout 2 Baris: Baris 1 = Area Baki Pembedahan Utama (lebar penuh), Baris 2 = Panel Alat & Wadah Organ berdampingan */
+    main.workstation {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: minmax(460px, 52dvh) minmax(360px, auto);
+      gap: 10px;
+      padding: 10px;
+      overflow: visible;
+    }
+    main.workstation > .pan-container {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      height: 100%;
+    }
+    main.workstation > section.tray-panel:first-child {
+      grid-column: 1;
+      grid-row: 2;
+      max-height: 460px;
+    }
+    main.workstation > .right-column {
+      grid-column: 2;
+      grid-row: 2;
+      min-height: 400px;
+      max-height: 460px;
+    }
+    .tool-list {
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      touch-action: pan-y;
+    }
+    .dish-slot {
+      padding: 5px 4px;
+    }
+    .dish-slot-label {
+      font-size: 10px;
+      line-height: 1.2;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .suture-guide-hud,
+    .anesthesia-hud {
+      top: auto;
+      bottom: 56px;
+      left: 12px;
+      right: 12px;
+      width: auto;
+      max-width: calc(100% - 24px);
+    }
+  }
+
+  /* 5. Smartphone Portrait (<= 600px & Portrait, mis. 390x844) */
+  @media (max-width: 600px) and (orientation: portrait) {
+    html, body {
+      height: auto;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: pan-y;
+    }
+    header.main-header {
+      flex-wrap: wrap;
+      padding: 7px 10px;
+      gap: 6px;
+    }
+    .brand {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .brand-badge {
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+    .brand h1 {
+      font-size: 12.5px;
+      white-space: normal;
+      line-height: 1.25;
+    }
+    .header-actions {
+      width: 100%;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .header-actions button.btn {
+      padding: 5px 8px;
+      font-size: 11.5px;
+    }
+    .storage-status-badge {
+      font-size: 10.5px;
+      padding: 4px 7px;
+    }
+    .step-info-bar {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 7px 10px;
+      gap: 5px;
+    }
+    .step-title-line {
+      font-size: 12px;
+    }
+    .step-instruction-text {
+      font-size: 11.5px;
+    }
+    .step-progress-wrap {
+      align-self: flex-start;
+    }
+    main.workstation {
+      grid-template-columns: minmax(0, 1fr);
+      overflow: visible;
+      padding: 8px;
+      gap: 10px;
+    }
+    .tool-list {
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
+      padding: 8px;
+    }
+    .tool-card,
+    .tool-card:not(.disabled) {
+      min-width: 168px;
+      flex-shrink: 0;
+      touch-action: pan-x;
+    }
+    .pan-container {
+      height: 395px;
+      padding: 8px;
+    }
+    .dissecting-pan {
+      padding: 8px;
+      border-radius: 16px;
+    }
+    .pan-controls {
+      bottom: 10px;
+      right: 10px;
+      left: 10px;
+      justify-content: center;
+      padding: 5px 6px;
+      gap: 4px;
+    }
+    .pan-controls button {
+      font-size: 11px;
+      padding: 4px 7px;
+    }
+    .right-column {
+      min-height: 410px;
+      max-height: none;
+      height: auto;
+    }
+    .specimen-white-box {
+      grid-template-rows: repeat(4, minmax(82px, auto));
+    }
+    .vertical-progress-widget {
+      top: 8px;
+      right: 8px;
+      gap: 5px;
+    }
+    .vertical-progress-widget .vp-track {
+      width: 9px;
+      height: 82px;
+    }
+    .vertical-progress-widget .vp-label-wrap {
+      padding: 3px 6px;
+    }
+    .vertical-progress-widget .vp-pct-text {
+      font-size: 11px;
+    }
+    .vertical-progress-widget .vp-sub-text {
+      font-size: 9px;
+    }
+    .suture-guide-hud,
+    .anesthesia-hud {
+      top: auto;
+      bottom: 54px;
+      left: 8px;
+      right: 8px;
+      width: auto;
+      max-width: none;
+    }
+    .modal-card {
+      padding: 16px 14px;
+      border-radius: 12px;
+    }
+    .modal-card h2 {
+      font-size: 16.5px;
+    }
+    .sex-selector-grid {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+
+  /* 5B. Smartphone Portrait Sempit (<= 425px & Portrait, mis. 360x800, 390x844, 412x915) */
+  @media (max-width: 425px) and (orientation: portrait) {
+    .right-column {
+      min-height: auto;
+      max-height: none;
+      height: auto;
+      overflow: visible;
+    }
+    .specimen-white-box {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(4, minmax(76px, auto));
+      padding: 8px;
+      gap: 6px;
+    }
+    .dish-slot {
+      padding: 4px 2px;
+      min-width: 0;
+    }
+    .dish-slot-svg {
+      width: 36px;
+      height: 30px;
+    }
+    .dish-slot-label {
+      font-size: 9.5px;
+      line-height: 1.15;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    /* Bilah Konfirmasi Pengamatan Organ di bagian bawah panel kanan */
+    .right-column > div:last-child,
+    .observe-confirm-bar,
+    .dish-confirm-bar,
+    .dish-footer {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+      padding: 8px 10px;
+      height: auto;
+      min-height: 0;
+    }
+    .right-column > div:last-child button,
+    .observe-confirm-bar button,
+    .dish-confirm-bar button,
+    .dish-footer button {
+      width: 100%;
+      white-space: normal;
+      line-height: 1.25;
+      padding: 8px 10px;
+      font-size: 12px;
+      text-align: center;
+    }
+    /* Popup Deskripsi Organ agar tidak terpotong di layar <= 425px */
+    .organ-popup-box {
+      inset: 38px 6px 6px 6px;
+      max-width: calc(100% - 12px);
+      max-height: calc(100% - 44px);
+    }
+    .popup-header {
+      padding: 6px 8px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .popup-title-wrap h3 {
+      font-size: 13px;
+      white-space: normal;
+    }
+    .btn-tts-popup {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+    .popup-scroll-body {
+      padding: 8px 10px;
+    }
+    /* Perbaikan Modal Konfirmasi Pengamatan Organ (#suture-question-modal) di layar <= 425px */
+    #suture-question-modal {
+      align-items: flex-start;
+      padding: 8px;
+      overflow-y: auto;
+    }
+    #suture-question-modal .modal-card.modal-xl {
+      width: 100%;
+      max-width: 100%;
+      padding: 14px 12px;
+      margin: auto 0;
+      border-radius: 12px;
+      max-height: calc(var(--app-height, 100dvh) - 16px);
+    }
+    #suture-question-modal #sq-title {
+      font-size: 15.5px;
+      line-height: 1.3;
+    }
+    #suture-question-modal #sq-body {
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+    #suture-question-modal .crc-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin: 10px 0 6px 0;
+    }
+    #suture-question-modal .crc-option-box {
+      padding: 12px 10px;
+      gap: 8px;
+    }
+    #suture-question-modal .crc-option-box h3 {
+      font-size: 14.5px !important;
+    }
+    #suture-question-modal .crc-row {
+      padding: 7px 9px;
+    }
+    #suture-question-modal .crc-row-text {
+      font-size: 12px;
+      line-height: 1.4;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    #suture-question-modal .crc-option-box button {
+      white-space: normal;
+      line-height: 1.3;
+      padding: 9px 10px;
+      font-size: 12.5px !important;
+    }
+  }
+
+  /* 6. Smartphone Landscape (<= 520px tinggi & Landscape, mis. 844x390, 740x360, 640x360) */
+  @media (max-height: 520px) and (orientation: landscape) {
+    html, body {
+      height: auto;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: pan-y;
+    }
+    header.main-header {
+      padding: 4px 10px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      min-width: 0;
+      flex: 1 1 240px;
+    }
+    .brand h1 {
+      font-size: 12px;
+      white-space: normal;
+overflow: visible;
+text-overflow: clip;
+word-break: break-word;
+line-height: 1.25;
+    }
+    .header-actions {
+      width: auto;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+    .header-actions button.btn {
+      padding: 3px 7px;
+      font-size: 11px;
+    }
+    .storage-status-badge {
+      padding: 3px 7px;
+      font-size: 10.5px;
+    }
+    .step-info-bar {
+      padding: 5px 10px;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .step-info-content {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .step-title-line {
+      font-size: 11.5px;
+      line-height: 1.25;
+    }
+    .step-instruction-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .step-instruction-label {
+      font-size: 10px;
+      line-height: 1.15;
+    }
+    .step-instruction-text {
+      font-size: 11px;
+      line-height: 1.3;
+    }
+    .step-progress-wrap {
+      align-self: center;
+      flex-shrink: 0;
+    }
+    .step-progress {
+      padding: 2px 8px;
+      font-size: 11px;
+    }
+    main.workstation {
+      grid-template-columns: 158px minmax(0, 1fr) 232px;
+      gap: 6px;
+      padding: 6px;
+      min-height: 310px;
+      overflow: visible;
+    }
+    .tray-panel,
+    .right-column {
+      max-height: calc(100dvh - 76px);
+      min-height: 295px;
+    }
+    .tray-header {
+      padding: 5px 9px;
+    }
+    .tray-title {
+      font-size: 10.5px;
+    }
+    .tool-list {
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      touch-action: pan-y;
+      padding: 5px;
+      gap: 5px;
+    }
+    .tool-card {
+      min-width: 0;
+      width: 100%;
+      padding: 5px 6px;
+      gap: 6px;
+    }
+    .tool-icon {
+      width: 24px;
+      height: 24px;
+    }
+    .tool-info h4 {
+      font-size: 11px;
+    }
+    .tool-info p {
+      display: none;
+    }
+    .pan-container {
+      height: calc(100dvh - 76px);
+      min-height: 295px;
+      padding: 5px;
+    }
+    .dissecting-pan {
+      padding: 6px;
+      border-radius: 14px;
+    }
+    .pan-controls {
+      bottom: 8px;
+      right: 8px;
+      left: auto;
+      padding: 4px 6px;
+      gap: 4px;
+    }
+    .pan-controls button {
+      font-size: 10.5px;
+      padding: 3px 6px;
+    }
+    .suture-guide-hud,
+    .anesthesia-hud {
+      top: auto;
+      bottom: 40px;
+      left: 8px;
+      right: 8px;
+      width: auto;
+      max-width: calc(100% - 16px);
+      max-height: 110px;
+      overflow-y: auto;
+      touch-action: pan-y;
+      padding: 5px 8px;
+      font-size: 10.5px;
+    }
+    .white-box-hint {
+      display: none;
+    }
+    .specimen-white-box {
+      grid-template-rows: repeat(4, minmax(54px, 1fr));
+      overflow-y: auto;
+      touch-action: pan-y;
+      padding: 5px;
+      gap: 5px;
+    }
+    .dish-slot {
+      min-height: 52px;
+      padding: 3px;
+    }
+    .dish-slot-svg {
+      width: 34px;
+      height: 28px;
+      margin-bottom: 1px;
+    }
+    .dish-slot-label {
+      font-size: 9.5px;
+    }
+    .organ-popup-box {
+      inset: 30px 5px 5px 5px;
+      max-width: calc(100% - 10px);
+      max-height: calc(100% - 35px);
+      border-radius: 9px;
+    }
+    .popup-header {
+      padding: 5px 8px;
+      min-height: 30px;
+      gap: 4px;
+    }
+    .popup-title-wrap h3 {
+      font-size: 11.5px;
+    }
+    .popup-title-wrap .latin-sub {
+      font-size: 10px;
+      display: block;
+      white-space: normal;
+overflow: visible;
+text-overflow: clip;
+word-break: break-word;
+line-height: 1.25;
+    }
+    .btn-tts-popup {
+      padding: 3px 6px;
+      font-size: 10px;
+    }
+    .btn-close-popup {
+      width: 22px;
+      height: 22px;
+      font-size: 12px;
+    }
+    .popup-scroll-body {
+      padding: 6px 8px;
+    }
+    .popup-field {
+      margin-bottom: 6px;
+    }
+    .popup-field-label {
+      font-size: 9.5px;
+    }
+    .popup-field-text {
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .mech-visual-box {
+      padding: 5px;
+      margin-top: 5px;
+    }
+    .mech-visual-box svg {
+      height: 86px !important;
+    }
+    .mech-caption {
+      font-size: 10px;
+    }
+    .cage-arena {
+      height: 170px;
+    }
+  }
+
+  /* 7. Smartphone Landscape Sempit (<= 760px lebar & <= 420px tinggi, mis. 740x360 & 640x360) */
+  @media (max-width: 760px) and (max-height: 420px) and (orientation: landscape) {
+    main.workstation {
+      grid-template-columns: 138px minmax(0, 1fr) 204px;
+      gap: 5px;
+      padding: 5px;
+    }
+    .tray-header {
+      padding: 4px 7px;
+    }
+    .tray-title {
+      font-size: 10px;
+    }
+    .tool-card {
+      padding: 4px 5px;
+      gap: 5px;
+    }
+    .tool-icon {
+      width: 22px;
+      height: 22px;
+    }
+    .tool-info h4 {
+      font-size: 10.5px;
+    }
+    .mech-visual-box svg {
+      height: 76px !important;
+    }
+  }
+
+  /* 8. Split-Screen Landscape Menengah (601px - 820px lebar & >= 521px tinggi, mis. 700x600, 800x650) */
+  @media (min-width: 601px) and (max-width: 820px) and (min-height: 521px) and (orientation: landscape) {
+    html, body {
+      height: auto;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: pan-y;
+    }
+    header.main-header {
+      flex-wrap: wrap;
+      padding: 6px 10px;
+      gap: 6px;
+    }
+    .brand h1 {
+      font-size: 13px;
+      white-space: normal;
+      line-height: 1.25;
+    }
+    .step-info-bar {
+      padding: 6px 10px;
+      gap: 8px;
+    }
+    /* Layout Bertingkat: Baris 1 = Area Baki Pembedahan Utama (lebar penuh), Baris 2 = Panel Alat & Wadah Organ berdampingan */
+    main.workstation {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: minmax(420px, 64dvh) minmax(320px, auto);
+      gap: 8px;
+      padding: 8px;
+      overflow: visible;
+    }
+    main.workstation > .pan-container {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      height: 100%;
+    }
+    main.workstation > section.tray-panel:first-child {
+      grid-column: 1;
+      grid-row: 2;
+      max-height: 380px;
+    }
+    main.workstation > .right-column {
+      grid-column: 2;
+      grid-row: 2;
+      min-height: 340px;
+      max-height: 380px;
+    }
+    .tool-list {
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      touch-action: pan-y;
+    }
+    .suture-guide-hud,
+    .anesthesia-hud {
+      top: auto;
+      bottom: 52px;
+      left: 10px;
+      right: 10px;
+      width: auto;
+      max-width: calc(100% - 20px);
+    }
+  }
+  
+  /* === TAHAP C: KOTAK SAMBUTAN DOKTER JOVAN (C) & INTERACTIVE SPOTLIGHT TUTORIAL (D) === */
+  /* Menyembunyikan spesimen di wax bed selama kotak sambutan & tutorial berlangsung (Bagian G) */
+  body.tutorial-hide-specimen #specimen-svg,
+  body.tutorial-hide-specimen #specimen-identity-panel,
+  body.tutorial-hide-specimen #anesthesia-hud,
+  body.specimen-hidden-on-reset #specimen-svg,
+  body.specimen-hidden-on-reset #specimen-identity-panel,
+  body.specimen-hidden-on-reset #anesthesia-hud {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Root terpisah anak langsung document.body (Bagian F & I) */
+  #spotlight-tutorial-root {
+    position: fixed;
+    inset: 0;
+    z-index: 2400; /* Di bawah semua .modal-backdrop aplikasi (>= 2500) */
+    pointer-events: none;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  /* Shield penangkap interaksi di dalam root (Bagian I) */
+  .st-interaction-shield {
+    position: fixed;
+    inset: 0;
+    pointer-events: auto;
+    background: transparent;
+    z-index: 1;
+  }
+
+  /* BAGIAN C: Kotak Cerita Sambutan Dokter Jovan */
+  .st-backdrop-welcome {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.48);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 3;
+    pointer-events: auto;
+    opacity: 0;
+    transition: opacity 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .st-backdrop-welcome.st-visible {
+    opacity: 1;
+  }
+
+  .st-welcome-card {
+    background: #ffffff;
+    border: 1.5px solid #7dd3fc;
+    border-radius: 14px;
+    max-width: 440px;
+    width: 100%;
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    padding: 20px 22px;
+    box-shadow: 0 20px 36px -8px rgba(15, 23, 42, 0.32), 0 0 0 1px rgba(2, 132, 199, 0.12);
+    color: #0f172a;
+    transform: translateY(10px) scale(0.97);
+    transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1), opacity 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .st-backdrop-welcome.st-visible .st-welcome-card {
+    transform: translateY(0) scale(1);
+  }
+
+  .st-welcome-badge {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 99px;
+    margin-bottom: 8px;
+  }
+
+  .st-welcome-title {
+    margin: 0 0 10px 0;
+    font-size: 16.5px;
+    font-weight: 800;
+    line-height: 1.35;
+    color: #0c4a6e;
+  }
+
+  .st-welcome-body p {
+    margin: 0 0 9px 0;
+    font-size: 13px;
+    line-height: 1.52;
+    color: #334155;
+  }
+
+  .st-welcome-body p:last-child {
+    margin-bottom: 0;
+    font-weight: 600;
+    color: #0f172a;
+  }
+
+  .st-welcome-actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* BAGIAN D, E, F: Overlay Gelap + Blur 3px & Kartu Spotlight Tutorial */
+  .st-shade {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    pointer-events: auto;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .st-shade.st-active {
+    opacity: 1;
+  }
+
+  .st-focus-ring {
+    position: fixed;
+    border: 2.5px solid #38bdf8;
+    border-radius: 12px;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.24), 0 8px 24px rgba(15, 23, 42, 0.25);
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    transition:
+      top 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      left 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      width 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      height 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .st-focus-ring.st-active {
+    opacity: 1;
+  }
+
+  .st-tutorial-card {
+    position: fixed;
+    width: 360px;
+    max-width: calc(100vw - 24px);
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 15px 16px;
+    box-shadow: 0 18px 34px -6px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(2, 132, 199, 0.14);
+    color: #0f172a;
+    pointer-events: auto;
+    z-index: 4;
+    opacity: 0;
+    transform: scale(0.96);
+    transition:
+      top 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      left 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      width 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      height 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 350ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .st-tutorial-card.st-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .st-tutorial-card.st-exiting {
+    opacity: 0 !important;
+    transform: scale(0.93) translateY(6px) !important;
+  }
+
+  .st-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .st-progress-pill {
+    font-size: 11px;
+    font-weight: 800;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+    padding: 2px 9px;
+    border-radius: 99px;
+  }
+
+  .st-btn-skip {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #64748b;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 7px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+  }
+
+  .st-btn-skip:hover,
+  .st-btn-skip:focus-visible {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #cbd5e1;
+    outline: none;
+  }
+
+  /* Lapisan Morphing Konten Materi (Bagian E) */
+  .st-content-stage {
+    position: relative;
+    overflow: hidden;
+    transition: height 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .st-content-layer {
+    transition: opacity 350ms cubic-bezier(0.22, 1, 0.36, 1), transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .st-content-layer.st-layer-ghost {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  .st-content-layer.st-layer-ghost.st-morph-out-next {
+    opacity: 0;
+    transform: translateX(-14px) scale(0.98);
+  }
+
+  .st-content-layer.st-layer-ghost.st-morph-out-prev {
+    opacity: 0;
+    transform: translateX(14px) scale(0.98);
+  }
+
+  .st-content-layer.st-morph-in-next {
+    opacity: 0;
+    transform: translateX(14px) scale(0.98);
+  }
+
+  .st-content-layer.st-morph-in-prev {
+    opacity: 0;
+    transform: translateX(-14px) scale(0.98);
+  }
+
+  .st-step-title {
+    margin: 0 0 6px 0;
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.35;
+  }
+
+  .st-step-desc {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #475569;
+  }
+
+  /* Demonstrasi Konseptual Langkah 6 (Tidak membuka popup asli) */
+  .st-conceptual-demo {
+    margin-top: 10px;
+    background: #f8fafc;
+    border: 1.5px dashed #7dd3fc;
+    border-radius: 10px;
+    padding: 9px 11px;
+  }
+
+  .st-demo-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 5px;
+    margin-bottom: 6px;
+  }
+
+  .st-demo-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #0369a1;
+  }
+
+  .st-demo-badge {
+    font-size: 10px;
+    font-weight: 700;
+    background: #e0f2fe;
+    color: #0284c7;
+    padding: 2px 6px;
+    border-radius: 5px;
+  }
+
+  .st-demo-list {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: #334155;
+  }
+
+  .st-card-footer {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .st-nav-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+  }
+
+  .st-btn {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #0f172a;
+    border-radius: 7px;
+    padding: 6px 11px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 180ms ease, border-color 180ms ease, opacity 180ms ease;
+  }
+
+  .st-btn:hover:not(:disabled),
+  .st-btn:focus-visible:not(:disabled) {
+    background: #f8fafc;
+    border-color: #94a3b8;
+    outline: none;
+  }
+
+  .st-btn:disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+  }
+
+  .st-btn-primary {
+    background: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+  }
+
+  .st-btn-primary:hover:not(:disabled),
+  .st-btn-primary:focus-visible:not(:disabled) {
+    background: #0369a1;
+    border-color: #0369a1;
+  }
+
+  .st-btn-finish {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: #ffffff;
+  }
+
+  .st-btn-finish:hover:not(:disabled),
+  .st-btn-finish:focus-visible:not(:disabled) {
+    background: #15803d;
+    border-color: #15803d;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .st-backdrop-welcome,
+    .st-welcome-card,
+    .st-shade,
+    .st-focus-ring,
+    .st-tutorial-card,
+    .st-content-stage,
+    .st-content-layer {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+  
+  
+  
+/* === DUAL THEME TOGGLE BUTTON === */
+.btn-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--border-panel);
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease;
+}
+
+.btn-theme-toggle:hover {
+  background: var(--btn-hover);
+  border-color: var(--primary);
+}
+
+.btn-theme-toggle:focus-visible {
+  outline: 2.5px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1024px) {
+  .header-actions .btn-theme-toggle {
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 820px) {
+  .header-actions .btn-theme-toggle {
+    padding: 5px 8px;
+    font-size: 11.5px;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .header-actions .btn-theme-toggle {
+    padding: 3px 7px;
+    font-size: 11px;
+  }
+}
+
+/* === SFX AUDIO TOGGLE BUTTON === */
+.btn-sfx-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: rgba(15, 23, 42, 0.65);
+    color: #e2e8f0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+}
+.btn-sfx-toggle:hover {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(56, 189, 248, 0.5);
+}
+.btn-sfx-toggle.is-muted {
+    opacity: 0.65;
+    border-color: rgba(248, 113, 113, 0.4);
+    color: #fca5a5;
+}
+
+/* === PERBAIKAN KONTRAS DARK MODE (TOUCH SCANNER, CAPTURE HUD, GUIDE, CLOSING MODAL) === */
+
+/* 1. Pemindai Sentuh Awal (Gambar 1) */
+:root[data-theme="dark"] #touch-scanner-box,
+:root[data-theme="dark"] .touch-scanner-box {
+  background: rgba(24, 48, 80, 0.92) !important;
+  border-color: #f87171 !important;
+  box-shadow: inset 0 0 24px rgba(248, 113, 113, 0.12);
+}
+
+:root[data-theme="dark"] #touch-scanner-box .hand-circle,
+:root[data-theme="dark"] .touch-scanner-box .hand-circle {
+  background: #132640 !important;
+  border-color: #f87171 !important;
+}
+
+:root[data-theme="dark"] #touch-scanner-label,
+:root[data-theme="dark"] #touch-scanner-box p,
+:root[data-theme="dark"] #touch-scanner-box span,
+:root[data-theme="dark"] .touch-scanner-box .scanner-status-text {
+  color: #f1f5f9 !important;
+}
+
+:root[data-theme="dark"] #touch-progress-track,
+:root[data-theme="dark"] .touch-progress-track {
+  background: rgba(148, 163, 184, 0.28) !important;
+}
+
+/* 2. HUD Penangkapan Mencit (Gambar 2) */
+:root[data-theme="dark"] .capture-hud-bar {
+  background: #132640 !important;
+  border-color: rgba(148, 197, 255, 0.28) !important;
+}
+
+:root[data-theme="dark"] #capture-status-text,
+:root[data-theme="dark"] .capture-hud-bar span:first-child {
+  color: #f1f5f9 !important;
+}
+
+:root[data-theme="dark"] .capture-progress-track {
+  background: rgba(148, 163, 184, 0.25) !important;
+}
+
+:root[data-theme="dark"] #capture-timer-text {
+  color: #38bdf8 !important;
+}
+
+/* 3. Daftar Panduan Simulasi Anatomi Mencit (Gambar 3) */
+:root[data-theme="dark"] #guide-modal .modal-card,
+:root[data-theme="dark"] #guide-modal #guide-steps,
+:root[data-theme="dark"] #guide-modal #guide-steps li,
+:root[data-theme="dark"] #guide-modal #guide-list,
+:root[data-theme="dark"] #guide-modal #guide-list li {
+  color: #cbd5e1 !important;
+}
+
+:root[data-theme="dark"] #guide-modal #guide-steps li strong,
+:root[data-theme="dark"] #guide-modal #guide-steps li b,
+:root[data-theme="dark"] #guide-modal #guide-list li strong,
+:root[data-theme="dark"] #guide-modal #guide-list li b {
+  color: #f8fafc !important;
+}
+
+/* 4. Kotak Skenario & Refleksi pada Modal Penutup (Gambar 4) */
+:root[data-theme="dark"] #closing-black-death-story {
+  background: linear-gradient(135deg, #272115 0%, #1e1b14 100%) !important;
+  border: 1px solid rgba(251, 191, 36, 0.35) !important;
+  color: #f1f5f9 !important;
+}
+
+:root[data-theme="dark"] #closing-black-death-story h3,
+:root[data-theme="dark"] #closing-black-death-story h4,
+:root[data-theme="dark"] #closing-black-death-story strong {
+  color: #fcd34d !important;
+}
+
+:root[data-theme="dark"] #closing-black-death-story p {
+  color: #e2e8f0 !important;
+}
+
+:root[data-theme="dark"] #closing-practicum-modal .quran-box {
+  background: linear-gradient(135deg, #0d2b26 0%, #11352f 100%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.35) !important;
+  color: #ecfdf5 !important;
+}
+
+:root[data-theme="dark"] #closing-practicum-modal .quran-box .quran-header,
+:root[data-theme="dark"] #closing-practicum-modal .quran-box strong {
+  color: #6ee7b7 !important;
+}
+
+:root[data-theme="dark"] #closing-practicum-modal .quran-box .arabic-text {
+  color: #ffffff !important;
+}
+
+:root[data-theme="dark"] #closing-practicum-modal .quran-box p {
+  color: #d1fae5 !important;
+}
+
+/* === DUAL THEME POLISH, SURFACES, FOCUS STATES & REDUCED MOTION === */
+:root[data-theme="dark"] .crc-option-box {
+  background: var(--bg-panel-elevated);
+  border-color: var(--border-panel);
+}
+
+:root[data-theme="dark"] .crc-row,
+:root[data-theme="dark"] .tool-summary-item,
+:root[data-theme="dark"] .capture-hud-bar {
+  background: var(--bg-panel);
+  border-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+:root[data-theme="dark"] .crc-row-label {
+  color: var(--text-muted);
+}
+
+:root[data-theme="dark"] .crc-row-text,
+:root[data-theme="dark"] .tool-summary-item,
+:root[data-theme="dark"] #capture-status-text {
+  color: var(--text-secondary);
+}
+
+:root[data-theme="dark"] .st-welcome-card,
+:root[data-theme="dark"] .st-tutorial-card {
+  background: var(--bg-panel);
+  border-color: var(--border-panel);
+  color: var(--text-main);
+}
+
+:root[data-theme="dark"] .st-welcome-title,
+:root[data-theme="dark"] .st-step-title {
+  color: var(--text-main);
+}
+
+:root[data-theme="dark"] .st-welcome-body p,
+:root[data-theme="dark"] .st-step-desc {
+  color: var(--text-secondary);
+}
+
+:root[data-theme="dark"] .st-conceptual-demo {
+  background: var(--bg-panel-elevated);
+  border-color: var(--border-panel);
+}
+
+:root[data-theme="dark"] .st-demo-list {
+  color: var(--text-secondary);
+}
+
+:root[data-theme="dark"] .st-btn {
+  background: var(--btn-bg);
+  border-color: var(--border-panel);
+  color: var(--btn-text);
+}
+
+:root[data-theme="dark"] .st-btn:hover:not(:disabled) {
+  background: var(--btn-hover);
+}
+
+:root[data-theme="dark"] #sfx-mixer-popover {
+  background: var(--bg-panel) !important;
+  border-color: var(--border-panel) !important;
+  color: var(--text-main) !important;
+}
+
+/* Pertahankan keterbacaan kotak khusus pada modal penutup */
+:root[data-theme="dark"] #closing-practicum-modal #closing-title {
+  color: var(--text-main) !important;
+}
+:root[data-theme="dark"] #closing-practicum-modal #closing-subtitle {
+  color: var(--text-secondary) !important;
+}
+:root[data-theme="dark"] #closing-practicum-modal .credit-box {
+  background: var(--bg-panel-elevated);
+  border-color: var(--border-panel);
+}
+:root[data-theme="dark"] #closing-practicum-modal .credit-box p,
+:root[data-theme="dark"] #closing-practicum-modal .credit-box ol {
+  color: var(--text-secondary) !important;
+}
+
+/* Transisi selektif (tanpa transition: all global) */
+body,
+.app-top-shell,
+header.main-header,
+.step-info-bar,
+.tray-panel,
+.tray-header,
+.pan-container,
+.right-column,
+.white-box-hint,
+.specimen-white-box,
+.modal-card {
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease;
+}
+
+/* Focus state jelas dan aksesibel untuk kontrol interaktif */
+button.btn:focus-visible,
+button.btn-primary:focus-visible,
+button.btn-success:focus-visible,
+.btn-sfx-toggle:focus-visible,
+.pan-controls button:focus-visible,
+.tool-card:focus-visible {
+  outline: 2.5px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+/* Hormati prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .app-top-shell,
+  header.main-header,
+  .step-info-bar,
+  .tray-panel,
+  .tray-header,
+  .pan-container,
+  .right-column,
+  .white-box-hint,
+  .specimen-white-box,
+  .modal-card,
+  .btn-theme-toggle,
+  button.btn,
+  .tool-card,
+  .dish-slot {
+    transition: none !important;
+  }
+}
+
+/* === 5. KONTRAKS TEKS ORGAN DESCRIPTION BOX SAAT DARK MODE === */
+:root[data-theme="dark"] .organ-popup-box {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+:root[data-theme="dark"] .organ-popup-box .popup-header {
+  background: #f8fafc !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+:root[data-theme="dark"] .organ-popup-box .popup-scroll-body,
+:root[data-theme="dark"] .organ-popup-box .popup-scroll-body p,
+:root[data-theme="dark"] .organ-popup-box .popup-scroll-body div,
+:root[data-theme="dark"] .organ-popup-box .popup-scroll-body span,
+:root[data-theme="dark"] .organ-popup-box .popup-scroll-body li {
+  color: #1e293b !important;
+}
+
+:root[data-theme="dark"] .organ-popup-box .popup-scroll-body h4,
+:root[data-theme="dark"] .organ-popup-box .popup-scroll-body strong,
+:root[data-theme="dark"] .organ-popup-box .popup-scroll-body b {
+  color: #0369a1 !important;
+}
+
+:root[data-theme="dark"] .organ-popup-box .popup-scroll-body em {
+  color: #475569 !important;
+}
+
+/* === PERBAIKAN JUDUL POPUP ORGAN & TEKS ARAB QURAN BOX SAAT DARK MODE === */
+
+/* 1. Judul Utama & Tombol Header di Kotak Deskripsi Organ (Gambar 1) */
+:root[data-theme="dark"] .organ-popup-box .popup-header,
+:root[data-theme="dark"] .organ-popup-box .popup-title-wrap,
+:root[data-theme="dark"] .organ-popup-box .popup-title-wrap h3,
+:root[data-theme="dark"] #popup-organ-title {
+  color: #0f172a !important;
+}
+
+:root[data-theme="dark"] .organ-popup-box .popup-title-wrap .latin-sub,
+:root[data-theme="dark"] #popup-organ-latin {
+  color: #0369a1 !important;
+}
+
+:root[data-theme="dark"] .organ-popup-box .btn-close-popup {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* 2. Lafaz Arab & seluruh teks di dalam Kotak Refleksi QS. Ali 'Imran 191 (Gambar 2) */
+:root[data-theme="dark"] #closing-practicum-modal .quran-box,
+:root[data-theme="dark"] #closing-practicum-modal .quran-box * {
+  color: #ecfdf5 !important;
+}
+
+:root[data-theme="dark"] #closing-practicum-modal .quran-box > div:first-child,
+:root[data-theme="dark"] #closing-practicum-modal .quran-box strong {
+  color: #6ee7b7 !important;
+}
+
+:root[data-theme="dark"] #closing-practicum-modal .quran-box [dir="rtl"],
+:root[data-theme="dark"] #closing-practicum-modal .quran-box [lang="ar"],
+:root[data-theme="dark"] #closing-practicum-modal .quran-box div[style*="Amiri"],
+:root[data-theme="dark"] #closing-practicum-modal .quran-box div[style*="right"],
+:root[data-theme="dark"] #closing-practicum-modal .quran-box p[style*="right"] {
+  color: #ffffff !important;
+}
+
+/* === PERBAIKAN KONTRAS TOOLTIP LABEL ORGAN SAAT DARK MODE === */
+:root[data-theme="dark"] #organ-tooltip,
+:root[data-theme="dark"] .organ-tooltip,
+:root[data-theme="dark"] .organ-hover-label,
+:root[data-theme="dark"] #hover-label {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #d97706 !important;
+}
+
+:root[data-theme="dark"] #organ-tooltip *,
+:root[data-theme="dark"] .organ-tooltip *,
+:root[data-theme="dark"] .organ-hover-label *,
+:root[data-theme="dark"] #hover-label * {
+  color: #0f172a !important;
+}
+
+/* === PERBAIKAN TEKS LABEL KAPSUL ORGAN DI DALAM SVG (#specimen-svg) === */
+:root[data-theme="dark"] #specimen-svg g rect[fill="#ffffff"] + text,
+:root[data-theme="dark"] #specimen-svg g rect[fill="#fff"] + text,
+:root[data-theme="dark"] #specimen-svg g rect[fill="white"] + text,
+:root[data-theme="dark"] #specimen-svg .organ-label-tag text,
+:root[data-theme="dark"] #specimen-svg #organ-hover-group text {
+  fill: #0f172a !important;
+  color: #0f172a !important;
+}
+
+/* Perbaikan Teks Judul Agar Tidak Terpotong Elipsis (...) pada ID & EN */
+.dish-item-title,
+.dish-card-title,
+.dish-name,
+.organ-popup-head h2,
+.organ-popup-head h3,
+.organ-title-group h2,
+.organ-title-group h3 {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  word-wrap: break-word;
+  line-height: 1.25;
+}
+
+.organ-popup-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.organ-title-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.organ-popup-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
